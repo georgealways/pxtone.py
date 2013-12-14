@@ -9,7 +9,6 @@ Usage
 Comes with a class pxtone.PTCOP which can load PTCOP files given a path.
 
 ```python
-
 ptcop = pxtone.PTCOP.load('mysong.ptcop')
 
 # list of Unit objects representing tracks
@@ -26,9 +25,6 @@ ptcop.units[0].events[0].position
 
 # event value, meaning depends on event type
 ptcop.units[0].events[0].value
-
-
-
 ```
 
 MIDI Converter
