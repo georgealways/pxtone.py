@@ -29,7 +29,8 @@ class PTCOP:
         stream.seek(5, os.SEEK_CUR)
 
         # (totally wrong)
-        ptcop.tempo = read_int(stream) 
+        # ptcop.tempo = read_int(stream) 
+        ptcop.temp = 120
 
         print 'Tempo: ', ptcop.tempo
         print 'Num units:', num_units

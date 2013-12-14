@@ -75,16 +75,14 @@ def ptcop2midi(ptcop, outfile):
 
                         offset = ptcop2midi_beat(f * PITCH_BEND_DETAIL)
                         offset += beat
-
-                        data = midi_14bit(bend, channel, MIDIEvents.PITCH_BEND)
-
                         # midi.addControllerEvent(i,
-                        #                         data['channel'],
+                        #                         0xE0 | channel,
                         #                         beat + offset,
-                        #                         data['type'],
-                        #                         data['value'])
+                        #                         bend & 0x7F,
+                        #                         (bend >> 7) & 0x7F)
 
             elif e.type == pxtone.EventType.KEY_PORTA:
+
                 porta = e.value
 
             elif e.type == pxtone.EventType.VOLUME:
@@ -97,15 +95,11 @@ def ptcop2midi(ptcop, outfile):
 
             elif e.type == pxtone.EventType.PAN:
 
-                val = ptcop2midi_cc(e.value)
-
-                data = midi_14bit(bend, channel, MIDIEvents.PAN)
-
-            #     midi.addControllerEvent(i,
-            #                             data['channel'],
-            #                             beat + offset,
-            #                             data['type'],
-            #                             data['value'])
+                midi.addControllerEvent(i,
+                                        channel,
+                                        beat,
+                                        MIDIEvents.PAN,
+                                        e.value)
 
 
 
@@ -113,9 +107,6 @@ def ptcop2midi(ptcop, outfile):
     midi.writeFile(out)
     out.close()
 
-def midi_14bit(value, channel, type):
-    # todo, pack 14 bit value in to [127, 127, 127]
-    return dict(channel=achannel, type=atype, value=avalue)
 
 def ptcop2midi_cc(value):
     return int(value / 127.0 * 0x3FFF)
