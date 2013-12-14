@@ -32,7 +32,7 @@ pxtone.EventTypes.PAN
 ptcop.units[0].events[0].value
 ```
 
-If you're interested in learning more about the PTCOP format, [http://www.cavestory.org/forums/index.php?/topic/5369-reading-ptcop-data-or-converting-to-midi-gj-say-hi/](check out this thread) where Noxid breaks it down.
+If you're interested in learning more about the PTCOP format, [check out this thread](http://www.cavestory.org/forums/index.php?/topic/5369-reading-ptcop-data-or-converting-to-midi-gj-say-hi/) where Noxid breaks it down.
 
 MIDI Converter
 --------------
