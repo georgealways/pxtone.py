@@ -20,12 +20,19 @@ ptcop.units[0].events
 # integer representing time in "ptcop beats"
 ptcop.units[0].events[0].position
 
-# integer representing time in "ptcop beats"
-ptcop.units[0].events[0].position
+# integer representing event type
+ptcop.units[0].events[0].type
 
-# event value, meaning depends on event type
+# an enum describing event types
+pxtone.EventTypes.ON
+pxtone.EventTypes.NOTE
+pxtone.EventTypes.PAN
+
+# event value whose meaning depends on event type
 ptcop.units[0].events[0].value
 ```
+
+If you're interested in learning more about the PTCOP format, [http://www.cavestory.org/forums/index.php?/topic/5369-reading-ptcop-data-or-converting-to-midi-gj-say-hi/](check out this thread) where Noxid breaks it down.
 
 MIDI Converter
 --------------
@@ -47,7 +54,7 @@ Currently, the only interpreted values are:
 - NOTE
 - VOLUME
 
-TODO
+todo
 ----
 
 - MIDI Converter: Haven't yet figured out how to send 14-bit values like PAN or PITCH_BEND. 
@@ -57,7 +64,5 @@ TODO
 Thanks
 ------
 
-This would not have been possible without the generous help of [Noxid](http://noxid.ca/) who reverse engineered the PTCOP format. Plus all of George & Jonathan's fans who came out of the wood work to help scour the web. 
+This would not have been possible without the generous help of [Noxid](http://noxid.ca/) who reverse engineered the PTCOP format. Plus all of George & Jonathan's fans who came out of the wood work to help scour the web.
 
-If you're interested in learning more about the PTCOP format, check out this thread where Noxid breaks it down:
-[http://www.cavestory.org/forums/index.php?/topic/5369-reading-ptcop-data-or-converting-to-midi-gj-say-hi/]
