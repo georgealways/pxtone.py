@@ -55,7 +55,7 @@ class PTCOP:
             event_id = ord(stream.read_byte())
             event_value = vlq(stream)
 
-            print stream.tell(), '|', abs_position, '|', position, unit_id, event_id, event_value
+            # print stream.tell(), '|', abs_position, '|', position, unit_id, event_id, event_value
 
             if event_id == 0:
                 print 'Invalid event!\n'

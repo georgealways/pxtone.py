@@ -3,7 +3,7 @@ import sys
 import pxtone
 from pxtone import enum
 
-from midiutil.MidiFile import MIDIFile
+from MidiFile import MIDIFile
 
 MIDIEvents = enum(
     PITCH_BEND = 1,
@@ -75,11 +75,9 @@ def ptcop2midi(ptcop, outfile):
 
                         offset = ptcop2midi_beat(f * PITCH_BEND_DETAIL)
                         offset += beat
-                        # midi.addControllerEvent(i,
-                        #                         0xE0 | channel,
-                        #                         beat + offset,
-                        #                         bend & 0x7F,
-                        #                         (bend >> 7) & 0x7F)
+
+                        # midi.addPitchBendEvent(i, channel, beat + offset, bend);
+                        
 
             elif e.type == pxtone.EventType.KEY_PORTA:
 
@@ -95,11 +93,11 @@ def ptcop2midi(ptcop, outfile):
 
             elif e.type == pxtone.EventType.PAN:
 
-                midi.addControllerEvent(i,
-                                        channel,
-                                        beat,
-                                        MIDIEvents.PAN,
-                                        e.value)
+                # midi.addControllerEvent(i,
+                #                         channel,
+                #                         beat,
+                #                         MIDIEvents.PAN,
+                #                         e.value)
 
 
 
