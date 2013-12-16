@@ -5,7 +5,7 @@ class PTCOP:
     def __init__(self):
 
         self.units = list()
-        self.tempo = 120
+        self.tempo = 130
 
     @staticmethod
     def load(path):
@@ -30,7 +30,6 @@ class PTCOP:
 
         # (totally wrong)
         # ptcop.tempo = read_int(stream) 
-        ptcop.temp = 120
 
         print 'Tempo: ', ptcop.tempo
         print 'Num units:', num_units
@@ -55,7 +54,7 @@ class PTCOP:
             event_id = ord(stream.read_byte())
             event_value = vlq(stream)
 
-            # print stream.tell(), '|', abs_position, '|', position, unit_id, event_id, event_value
+            print stream.tell(), '|', abs_position, '|', position, unit_id, event_id, event_value
 
             if event_id == 0:
                 print 'Invalid event!\n'
@@ -87,31 +86,38 @@ class Unit:
         self.events = list()
         self.name = name
 
-    # Determines whether the unit is ON (playing) at a given position
-    def is_on(self, position):
+    def on(self, position):
 
         # find latest "on" event before position
-
 
         on_events = filter(
             lambda e: e.position <= position and e.type == EventType.ON, 
             self.events)
 
         if len(on_events) == 0:
-            return False
+            return None
 
         last_event = on_events[-1]
 
-        # return on.position + duration >= position
-    
-        return last_event.position + last_event.value >= position
+        if last_event.position + last_event.value >= position:
+            return last_event
+
+        return None
 
 
     # Returns the oldest NOTE event whose position <= position
     def note_at(self, position):
         # : find the oldest "NOTE" event whose
-        # : position is <= on.position
-        return 15888
+        # : position is <= position
+
+        note_events = filter(
+            lambda e: e.position <= position and e.type == EventType.NOTE, 
+            self.events)
+
+        if len(note_events) == 0:
+            return None
+
+        return note_events[-1].value
 
 class Event:
     def __init__(self, position, type, value):
