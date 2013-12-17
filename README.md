@@ -57,7 +57,6 @@ Currently, the only interpreted values are:
 todo
 ----
 
-~~- MIDI Converter: Haven't yet figured out how to send 14-bit values like PITCH BEND.~~
 - Unit Names
 - Tempo
 - Volume
