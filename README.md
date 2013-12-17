@@ -39,8 +39,6 @@ MIDI Converter
 
 Comes with a utility ptcop2midi.py for converting ptcop files to midi.
 
-You'll first need need to install a library called [midiutil](http://code.google.com/p/midiutil/)
-
 ```shell
 $ python ptcop2midi.py mysong.ptcop
 ```
@@ -52,17 +50,21 @@ Currently, the only interpreted values are:
 - ON
 - VELOCITY
 - NOTE
-- VOLUME
+- KEY PORTA
+
+**For KEY PORTA to be interpreted correctly, the pitch bend range for your MIDI device must be +-12 semitones**. Any pitch bends in a PTCOP that would have the sample bend more than an octave in either direction can't be interpreted.
 
 todo
 ----
 
-- MIDI Converter: Haven't yet figured out how to send 14-bit values like PAN or PITCH_BEND. 
-- Unit names are currently ignored.
-- Tempo isn't read correctly.
+~~- MIDI Converter: Haven't yet figured out how to send 14-bit values like PITCH BEND.~~
+- Unit Names
+- Tempo
+- Volume
+- Pan
 
 Thanks
 ------
 
-This would not have been possible without the generous help of [Noxid](http://noxid.ca/) who reverse engineered the PTCOP format. Plus all of George & Jonathan's fans who came out of the wood work to help scour the web.
+This would not have been possible without the generous help of [Noxid](http://noxid.ca/) who reverse engineered the PTCOP format. Andrew Reitano for helping me patch the midiutil lib. Plus all of George & Jonathan's fans who came out of the wood work to help scour the web.
 

@@ -67,6 +67,8 @@ class PTCOP:
             try: 
                 unit = ptcop.units[unit_id]
                 event = Event(abs_position, event_id, event_value)
+                # unit.position += position
+
                 unit.events.append(event)
             except:
                 print 'Invalid event!\n'
@@ -85,6 +87,7 @@ class Unit:
     def __init__(self, name):
         self.events = list()
         self.name = name
+        self.position = 0
 
     def on(self, position):
 
@@ -105,19 +108,28 @@ class Unit:
         return None
 
 
-    # Returns the oldest NOTE event whose position <= position
-    def note_at(self, position):
-        # : find the oldest "NOTE" event whose
-        # : position is <= position
+    # returns the oldest NOTE before this position that precedes or coincides with an ON
+    def note_before(self, position):
 
-        note_events = filter(
-            lambda e: e.position <= position and e.type == EventType.NOTE, 
+        on_events = filter(
+            lambda e: e.position < position and e.type == EventType.ON, 
             self.events)
 
-        if len(note_events) == 0:
-            return None
+        if len(on_events) == 0:
+            return 0x6000
 
-        return note_events[-1].value
+        last_on = on_events[-1]
+
+        note_events = filter(
+            lambda e: e.position < position and e.type == EventType.NOTE, 
+            self.events)
+
+
+        for e in reversed(note_events):
+            if e.position <= last_on.position:
+                return e.value
+
+        return 0x6000
 
 class Event:
     def __init__(self, position, type, value):
@@ -163,6 +175,6 @@ def read_int(stream):
 def vlq(stream):
     v = ord(stream.read_byte())
     if v > 0x7f:
-        return v + 80*(vlq(stream) - 1)
+        return v + 0x80*(vlq(stream)-1)
     else:
         return v
