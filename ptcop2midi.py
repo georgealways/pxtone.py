@@ -14,9 +14,6 @@ MIDIEvents = enum(
 # means pitchwheel must be set to +-12 semitones
 PITCH_BEND_SEMITONES = 12
 
-# pxtone "positions" per pitch bend framev
-PITCH_BEND_DETAIL = 10
-
 def ptcop2midi(ptcop, outfile):
 
     midi = MIDIFile(len(ptcop.units))
