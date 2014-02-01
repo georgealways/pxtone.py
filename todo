@@ -1,0 +1,7 @@
+a unit is 'drums' if has less than X note events.
+    if a unit is drums, it goes on the 'drum' track/channel.
+    each voice used for a drum unit gets a note number on the drum track/channel.
+
+else, it is a melody unit.
+    each voice used in a melody unit gets its own track/channel.
+    polyphony is allowed.
