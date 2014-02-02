@@ -5,7 +5,7 @@ class PTCOP:
     def __init__(self):
 
         self.units = list()
-        self.tempo = 130
+        self.tempo = 96
 
     @staticmethod
     def load(path):
@@ -26,11 +26,11 @@ class PTCOP:
 
         # Find out the tempo
         seek_block(stream, 'MasterV5')
-        stream.seek(5, os.SEEK_CUR)
+        # stream.read(6)
 
         # (totally wrong)
-        # ptcop.tempo = read_int(stream) 
 
+        # ptcop.tempo = vlq(stream) 
         print 'Tempo: ', ptcop.tempo
         print 'Num units:', num_units
 
@@ -44,17 +44,19 @@ class PTCOP:
         events_end = seek_block(stream, 'Event V5')
 
         abs_position = 0
-        num_events = 0
+        events_read = 0
+        num_events = read_int(stream)
+        print 'Num events:', num_events
 
         # Loop over the event block.
-        while stream.tell() < events_end:
+        while events_read < num_events:
 
             position = vlq(stream)
             unit_id = ord(stream.read_byte())
             event_id = ord(stream.read_byte())
             event_value = vlq(stream)
 
-            print stream.tell(), '|', abs_position, '|', position, unit_id, event_id, event_value
+            # print stream.tell(), '|', abs_position, '|', position, unit_id, event_id, event_value
 
             if event_id == 0:
                 print 'Invalid event!\n'
@@ -62,7 +64,7 @@ class PTCOP:
 
             # Increment the absolute position
             abs_position += position
-            num_events += 1
+            events_read += 1
 
             try: 
                 unit = ptcop.units[unit_id]
@@ -79,7 +81,7 @@ class PTCOP:
         stream.close()
         f.close()
 
-        print 'Loaded %s units with %s events.'%(num_units, num_events)
+        print 'Loaded %s units with %s events.'%(num_units, events_read)
 
         return ptcop
 

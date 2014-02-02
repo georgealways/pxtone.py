@@ -16,14 +16,16 @@ PITCH_BEND_SEMITONES = 12
 
 def ptcop2midi(ptcop, outfile):
 
-    midi = MIDIFile(len(ptcop.units))
+    midi = MIDIFile(200)
+
 
     for i, unit in enumerate(ptcop.units):
 
-        channel = i
+        channel = 0
+        track = i
 
         midi.addTrackName(i, channel, unit.name)
-        midi.addTempo(i, channel, ptcop.tempo)
+        midi.addTempo(i, channel, int(sys.argv[2]))
 
         note = 80
         velocity = 104
@@ -35,9 +37,13 @@ def ptcop2midi(ptcop, outfile):
 
             beat = ptcop2midi_beat(e.position)
 
-            if e.type == pxtone.EventType.ON:
+            if e.type == pxtone.EventType.VOICE:
+
+                track = e.value
+
+            elif e.type == pxtone.EventType.ON:
                 
-                midi.addNote(i, 
+                midi.addNote(track, 
                              channel,
                              note,
                              beat,
@@ -60,7 +66,7 @@ def ptcop2midi(ptcop, outfile):
                         # reset pitch bend
                         if bend != 0x4000/2:
                             bend = 0x4000/2
-                            midi.addPitchBendEvent(i, channel, beat, bend);
+                            midi.addPitchBendEvent(track, channel, beat, bend);
 
                     else:
 
@@ -76,10 +82,10 @@ def ptcop2midi(ptcop, outfile):
                         # where the pitch bend should wind up
                         target = 0x4000/2 + diff * 0x4000 / (PITCH_BEND_SEMITONES*2) 
 
-                        print porta, target
+                        # print porta, target
 
-                        midi.addPitchBendEvent(i, channel, beat, bend);
-                        midi.addPitchBendEvent(i, channel, beat + ptcop2midi_beat(porta), target);
+                        midi.addPitchBendEvent(track, channel, beat, bend);
+                        midi.addPitchBendEvent(track, channel, beat + ptcop2midi_beat(porta), target);
 
                         bend = target
                         
@@ -89,7 +95,7 @@ def ptcop2midi(ptcop, outfile):
 
             # elif e.type == pxtone.EventType.VOLUME:
 
-            #     midi.addControllerEvent(i,
+            #     midi.addControllerEvent(track,
             #                             channel,
             #                             beat,
             #                             MIDIEvents.VOLUME,
@@ -98,7 +104,7 @@ def ptcop2midi(ptcop, outfile):
             # elif e.type == pxtone.EventType.PAN:
 
 
-            #     midi.addControllerEvent(i,
+            #     midi.addControllerEvent(track,
             #                             channel,
             #                             beat,
             #                             MIDIEvents.PAN,
@@ -135,4 +141,4 @@ def ptcop2midi_note(value):
 if __name__ == "__main__":
     path = sys.argv[1]
     p = pxtone.PTCOP.load(path)
-    ptcop2midi(p, path + '.mid')
+    ptcop2midi(p, path.replace('.ptcop', '') + '.mid')
