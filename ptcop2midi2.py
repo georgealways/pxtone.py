@@ -141,4 +141,4 @@ def ptcop2midi_note(value):
 if __name__ == "__main__":
     path = sys.argv[1]
     p = pxtone.PTCOP.load(path)
-    ptcop2midi(p, path.replace('.ptcop', '') + '.mid')
+    ptcop2midi(p, '../site/mid/'+path.replace('.ptcop', '').replace('ptcop/','') + '.mid')
