@@ -7,6 +7,11 @@ class PTCOP:
         self.units = list()
         self.tempo = 96
 
+    def num_voices(self):
+        voice_events = filter(self.units, lambda e: e.type == EventType.VOICE)
+        return len(set([ e.value for e in voice_events ]))
+
+
     @staticmethod
     def load(path):
 
