@@ -113,7 +113,7 @@ def ptcop2midi(ptcop, outfile):
                         
             elif e.type == pxtone.EventType.KEY_PORTA:
 
-                porta = e.value
+                porta = 0 #e.value
 
             # elif e.type == pxtone.EventType.VOLUME:
 

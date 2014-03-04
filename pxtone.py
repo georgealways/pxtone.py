@@ -114,6 +114,15 @@ class Unit:
 
         return None
 
+    def notes_between(self, low, hi):
+
+        notes = filter(
+            lambda e: low <= e.position and e.position < hi and e.type == EventType.NOTE, 
+            self.events)
+
+        return notes
+
+
 
     # returns the oldest NOTE before this position that precedes or coincides with an ON
     def note_before(self, position):
