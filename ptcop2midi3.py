@@ -43,7 +43,7 @@ def ptcop2midi(ptcop, outfile):
             if e.type == pxtone.EventType.VOICE:
 
                 # track = e.value
-                pass
+                velocity = e.value
 
             elif e.type == pxtone.EventType.ON:
                 
@@ -94,8 +94,9 @@ def ptcop2midi(ptcop, outfile):
 
             elif e.type == pxtone.EventType.VELOCITY:
 
-                velocity = e.value
-
+                # velocity = e.value
+                pass
+                
             elif e.type == pxtone.EventType.NOTE:
 
                 note = ptcop2midi_note(e.value)
